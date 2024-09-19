@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors())
 const db = require("./models");
 
-
+const port = process.env.PORT || 3001;
 
 //Router
 const userRouter = require('./routes/User');
@@ -28,7 +28,7 @@ const foodTypeRouter = require('./routes/FoodIngre');
 app.use("/FoodIngre", foodTypeRouter);
 
 db.sequelize.sync().then(() => {
-    app.listen(3001, () => {
+    app.listen(port, () => {
     console.log('Hello') 
 })
 
