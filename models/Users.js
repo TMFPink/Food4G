@@ -16,6 +16,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNULL: true
         },
+        Aim:{
+            type: DataTypes.STRING,
+            allowNULL: true
+        },
+        Weight:{
+            type: DataTypes.FLOAT,
+            allowNULL: true
+        },
+        Height:{
+            type: DataTypes.FLOAT,
+            allowNULL: true
+        },
         Password:{
             type: DataTypes.STRING,
             allowNULL: false
