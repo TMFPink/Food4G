@@ -3,6 +3,47 @@ const router = express.Router();
 const {Users} = require("../models")
 const bcrypt = require("bcrypt");
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: User management routes
+ */
+
+/**
+ * @swagger
+ * /users/update/{id}:
+ *   post:
+ *     summary: Update user details
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Aim:
+ *                 type: string
+ *               Weight:
+ *                 type: number
+ *               Height:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
 router.post("/update/:id", async (req, res) => {
     const { id } = req.params;
     const { Aim, Weight, Height } = req.body;
@@ -21,6 +62,29 @@ router.post("/update/:id", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /users/get-me:
+ *   post:
+ *     summary: Get current user details
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               uid:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User details retrieved successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
 router.post("/get-me",async(req,res)=>{
     const {uid} = req.body
     try {

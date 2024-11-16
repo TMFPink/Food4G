@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { FoodIngredients } = require('../models');
 
-// Route to get food items by type
+
 router.get("/", async (req, res) => {
     try {
         const listOfFood = await FoodIngredients.findAll();
