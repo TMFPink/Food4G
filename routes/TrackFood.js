@@ -4,8 +4,42 @@ const { TrackedFood } = require('../models');
 const { where } = require('sequelize');
 const { sequelize } = require('../models'); // Ensure sequelize is imported
 
+/**
+ * @swagger
+ * tags:
+ *   name: TrackFood
+ *   description: Food tracking routes
+ */
 
-// Route to add food to tracking
+/**
+ * @swagger
+ * /track-food/add:
+ *   post:
+ *     summary: Add food to tracking
+ *     tags: [TrackFood]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               UserID:
+ *                 type: integer
+ *               Calories:
+ *                 type: number
+ *               Protein:
+ *                 type: number
+ *               Carb:
+ *                 type: number
+ *               Fat:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Food tracked successfully
+ *       500:
+ *         description: Internal server error
+ */
 router.post("/add", async (req, res) => {
     try {
         const { UserID, Calories, Protein, Carb, Fat } = req.body;
@@ -16,6 +50,26 @@ router.post("/add", async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
+/**
+ * @swagger
+ * /track-food/{userId}:
+ *   get:
+ *     summary: Get daily nutrition for a user
+ *     tags: [TrackFood]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Daily nutrition retrieved successfully
+ *       500:
+ *         description: Internal server error
+ */
 router.get('/:userId', async (req, res) => {
     const userId = req.params.userId;
     console.log('userid',userId)
@@ -38,6 +92,7 @@ router.get('/:userId', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
 router.post("/",async(req,res)=>{
     try {
         const { uid } = req.body;

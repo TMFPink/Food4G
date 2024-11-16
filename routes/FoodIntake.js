@@ -2,7 +2,49 @@ const express = require('express');
 const router = express.Router();
 const { FoodIntake } = require('../models');
 
-// Route to create or update a food intake record
+/**
+ * @swagger
+ * tags:
+ *   name: Intake
+ *   description: Food intake management routes
+ */
+
+/**
+ * @swagger
+ * /intake/{userId}:
+ *   get:
+ *     summary: Get food intake records for a specific user
+ *     tags: [Intake]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: ID of the user to fetch food intake records for
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Food intake records retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 userId:
+ *                   type: string
+ *                 Calories:
+ *                   type: number
+ *                 Protein:
+ *                   type: number
+ *                 Fat:
+ *                   type: number
+ *                 Carb:
+ *                   type: number
+ *       404:
+ *         description: No food intake records found for this user
+ *       500:
+ *         description: Internal server error
+ */
 router.get("/:userId", async (req, res) => {
     const userId = req.params.userId;
     try {
@@ -16,7 +58,67 @@ router.get("/:userId", async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
-
+/**
+ * @swagger
+ * /intake:
+ *   post:
+ *     summary: Create or update a food intake record
+ *     tags: [Intake]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               Calories:
+ *                 type: number
+ *               Protein:
+ *                 type: number
+ *               Fat:
+ *                 type: number
+ *               Carb:
+ *                 type: number
+ *     responses:
+ *       200:
+ *         description: Food intake record updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 userId:
+ *                   type: string
+ *                 Calories:
+ *                   type: number
+ *                 Protein:
+ *                   type: number
+ *                 Fat:
+ *                   type: number
+ *                 Carb:
+ *                   type: number
+ *       201:
+ *         description: Food intake record created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 userId:
+ *                   type: string
+ *                 Calories:
+ *                   type: number
+ *                 Protein:
+ *                   type: number
+ *                 Fat:
+ *                   type: number
+ *                 Carb:
+ *                   type: number
+ *       500:
+ *         description: Internal server error
+ */
 
 router.post("/", async (req, res) => {
     const { userId, Calories, Protein, Fat, Carb } = req.body;
