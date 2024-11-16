@@ -3,27 +3,38 @@ const router = express.Router();
 const {Users} = require("../models")
 const bcrypt = require("bcrypt");
 
-router.post("/", async (req, res) => {
-    const {Name, Mail, Phone, DOB, Password, Address} = req.body;
-    const hashedPassword = await bcrypt.hash(Password, 10);
-    const user = await Users.create({Name, Mail, Phone, DOB, Password: hashedPassword, Address});
-    res.json(user); 
-});
-router.post("/login", async (req, res) => {
-    const { Mail, Password } = req.body;
-    const user = await Users.findOne({ where: { Mail: Mail } });
-    if (!user) {
-        res.json({ error: "User Doesn't Exist" });
-        }else {
-            bcrypt.compare(Password, user.Password).then((match) => {
-                if (!match) {
-                    res.status(400).json({ error: "Wrong Username And Password Combination" });
-                } else {
-                    res.json({ message: "YOU LOGGED IN!!!", user: user });
-                }
-            }); 
+router.post("/update/:id", async (req, res) => {
+    const { id } = req.params;
+    const { Aim, Weight, Height } = req.body;
+
+    try {
+        const user = await Users.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ error: "User Not Found" });
         }
-    });
-    
+
+        // Update user details
+        await user.update({ Aim, Weight, Height });
+        res.json({ message: "User updated successfully", user });
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred while updating the user" });
+    }
+});
+
+router.post("/get-me",async(req,res)=>{
+    const {uid} = req.body
+    try {
+        const user = await Users.findByPk(uid);  
+        if (!user) {
+            return res.status(404).json({ error: "User Not Found" });
+        }
+
+        res.json({ user });
+    } catch (error) {
+        res.status(500).json({ error: "An error occurred" });
+    }
+})
+
+
 
 module.exports = router;
